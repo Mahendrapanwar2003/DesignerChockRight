@@ -2,10 +2,10 @@ name: the_designer_chowk
 version: 1.0.0+1
 publish_to: none
 description: A new Flutter project.
-environment:
+environment: 
   sdk: '>=2.17.5 <3.0.0'
 
-dependencies:
+dependencies: 
   cupertino_icons: ^1.0.2
   flutter_switch: ^0.3.2
   pin_code_fields: ^7.4.0
@@ -18,19 +18,24 @@ dependencies:
   image_picker: ^0.8.5+3
   image_cropper: ^2.0.3
   flutter_bounceable: ^1.0.2
-
   get: 4.6.5
-  flutter:
+  flutter_launcher_icons: 0.10.0
+  flutter: 
     sdk: flutter
 
-dev_dependencies:
+dev_dependencies: 
   flutter_lints: ^2.0.0
-  flutter_test:
+  flutter_test: 
     sdk: flutter
+
+flutter_icons:
+  android: true
+  ios: true
+  image_path: 'assets/images/designer-chowk-logo_eng.png'
 
 flutter:
   uses-material-design: true
-  assets:
+  assets: 
     - assets/images/designer-chowk-logo_eng.png
     - assets/images/image.png
     - assets/images/edit.png
@@ -43,30 +48,25 @@ flutter:
     - assets/images/back_photo_hindi.png
     - assets/images/image_blog.png
     - assets/images/rectangle_front.png
-
-
   fonts:
     - family: GilroyBold
-      fonts:
+      fonts: 
         - asset: fonts/Gilroy-Bold.ttf
           weight: 700
-
     - family: GilroySemiBold
-      fonts:
-         - asset: fonts/Gilroy-SemiBold.ttf
-           weight: 600
-
+      fonts: 
+        - asset: fonts/Gilroy-SemiBold.ttf
+          weight: 600
     - family: GilroyMedium
-      fonts:
+      fonts: 
         - asset: fonts/Gilroy-Medium.ttf
           weight: 500
-
     - family: GilroyRegular
-      fonts:
+      fonts: 
         - asset: fonts/Gilroy-Regular.ttf
           weight: 400
-
     - family: GilroyLight
-      fonts:
+      fonts: 
         - asset: fonts/Gilroy-Light.ttf
           weight: 200
+
