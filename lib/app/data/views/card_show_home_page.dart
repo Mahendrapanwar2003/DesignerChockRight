@@ -189,12 +189,12 @@ class CardShowHomePage extends StatelessWidget {
                       localTextButton(
                           context: context,
                           icon: Icons.comment_rounded,
-                          text: 'Share'.tr,
+                          text: 'Comment'.tr,
                           onTap: () {}),
                       localTextButton(
                         context: context,
                         icon: Icons.share,
-                        text: 'Comment'.tr,
+                        text: 'Share'.tr,
                         onTap: () {},
                       ),
                     ],
