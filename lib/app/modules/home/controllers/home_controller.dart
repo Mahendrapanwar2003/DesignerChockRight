@@ -11,23 +11,27 @@ import 'package:the_designer_chowk/app/routes/app_pages.dart';
 import 'package:the_designer_chowk/app/utils/language_singleton.dart';
 import 'package:http/http.dart' as http;
 
+import '../../../data/sheets/selected_locating.dart';
+
 class HomeController extends GetxController
     with GetSingleTickerProviderStateMixin {
-  TabController? controller;
+  TabController? tabController;
   final count = 0.obs;
   final selectedLocation = ''.obs;
-
   String? token = '';
-  final user_profile = ''.obs;
+  final userProfile = ''.obs;
+  final notification = ''.obs;
 
   final list = <Blog>[].obs;
   final homeTab = <Category>[].obs;
 
-  final blog_title = "".obs;
-  final blog_image = "".obs;
-  final blog_description = "".obs;
-  final is_likes = Rxn();
-  final List<Tab> myTabs = <Tab>[].obs;
+  final blogTitle = "".obs;
+  final blogImage = "".obs;
+  final blogDescription = "".obs;
+  final isLikes = Rxn();
+  //final List<String> myTabs = <String>[].obs;
+  GetCategoryModel getCategory = GetCategoryModel();
+  final notificationCountValue = 0.obs;
 
   @override
   void onInit() {
@@ -35,25 +39,27 @@ class HomeController extends GetxController
     getBlobApi();
     callApi();
     savedInLocal();
-    GetCategory();
+    getCategoryMethod();
   }
 
   callApi() async {
     SharedPreferences sp = await SharedPreferences.getInstance();
     token = sp.getString('token') as String;
-    print(token);
-    http.Response res = await http.get(
-        Uri.parse(ConstantUris.endpointGetUserProfile),
-        headers: {'Authorization': token!});
-    if (res.statusCode == 200) {
-      Map map = jsonDecode(res.body);
-      Map<String, dynamic> data = map['user_profile'];
-      user_profile.value = data['user_profile'] ?? '';
-      print(data['user_id']);
-    } else if (res.statusCode == 401) {
-      print("401Unauthorized");
-    } else if (res.statusCode == 400) {
-      print("400Bad Request");
+    if(token != '') {
+      notificationCount(token: token);
+      http.Response res = await http.get(
+          Uri.parse(ConstantUris.endpointGetUserProfile),
+          headers: {'Authorization': token!});
+      if (res.statusCode == 200) {
+        Map map = jsonDecode(res.body);
+        Map<String, dynamic> data = map['user_profile'];
+        userProfile.value = data['user_profile'] ?? '';
+        notification.value = data['notification'] ?? '';
+      } else if (res.statusCode == 401) {
+        print("401Unauthorized");
+      } else if (res.statusCode == 400) {
+        print("400Bad Request");
+      }
     }
   }
 
@@ -85,55 +91,54 @@ class HomeController extends GetxController
       if (getBlog.blog != null) {
         list.value = getBlog.blog!;
       }
-    } else {
-      print('Fail');
     }
   }
 
-  GetCategory() async {
+  getCategoryMethod() async {
     http.Response res =
         await http.get(Uri.parse(ConstantUris.endpointGetCategory));
     if (res.statusCode == 200) {
-      GetCategoryModel getCategory =
-      GetCategoryModel.fromJson(jsonDecode(res.body));
-      print(getCategory.category);
+      getCategory = GetCategoryModel.fromJson(jsonDecode(res.body));
       if (getCategory.category != null) {
         homeTab.value = getCategory.category!;
-        print(homeTab.length);
-        homeTab.value.forEach((element) {
-          Tab tab = Tab(
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Container(
-                  height: 10,
-                  width: 10,
-                  decoration: BoxDecoration(
-                    image: DecorationImage(
-                      image: NetworkImage(
-                          ConstantUris.baseUrl + element.categoryImage!),
-                    ),
-                  ),
-                ),
-                SizedBox(
-                  width: 2,
-                ),
-                Text(element.categoryName!),
-              ],
-            ),
-          );
-          myTabs.add(tab);
-        });
-        print('hfdgshgfdvgysvtyvfdgsvdgf');
-        myTabs.length = homeTab.length;
-        count.value=myTabs.length;
-        controller = TabController(
+        tabController = TabController(
           vsync: this,
-          length: myTabs.length,
+          length: homeTab.length,
         );
       }
-    } else {
-      print('Fail');
+    }
+  }
+
+  clickOnNotification() {
+    Get.toNamed(Routes.NOTIFICATION);
+  }
+
+  clickOnLocationButton() {
+    savedInLocal();
+    showModalBottomSheet(
+      context: Get.context!,
+      builder: (context) {
+        return SizedBox(
+          height: 300,
+          width: double.infinity,
+          child: Obx(() => SelectedLocation(
+              selectedLocation:
+              selectedLocation.value,
+              changeLocation: (String value) {
+                selectedLocation(value);
+              },
+              onPressed: () {},
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  Future<void> notificationCount({String? token}) async {
+    http.Response res = await http.get(Uri.parse(ConstantUris.endpointGetUserCountUnreadNotification),headers: {'Authorization' : token!});
+    if (res.statusCode == 200) {
+      notificationCountValue.value = int.parse(jsonDecode(res.body)["UnreadCount"]);
     }
   }
 }

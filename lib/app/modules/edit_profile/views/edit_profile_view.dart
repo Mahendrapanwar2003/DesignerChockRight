@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:motion_toast/motion_toast.dart';
 import 'package:the_designer_chowk/app/apis/constant/constant_uris.dart';
 import 'package:the_designer_chowk/app/validation/velidation.dart';
 import '../controllers/edit_profile_controller.dart';
@@ -61,6 +62,7 @@ class EditProfileView extends GetView<EditProfileController> {
                                   image: showProfilePic(), fit: BoxFit.cover)),
                         ),
                         IconButton(
+                          splashRadius: 24,
                           icon: Icon(
                             Icons.camera_alt,
                             color: Theme.of(context).colorScheme.background,
@@ -74,7 +76,7 @@ class EditProfileView extends GetView<EditProfileController> {
                       child: Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 16.0),
                         child: Text(
-                          controller.full_name.value,
+                          controller.full_name.value.trim(),
                           style: Theme.of(context).textTheme.headline2,
                           overflow: TextOverflow.ellipsis,
                         ),
@@ -83,7 +85,7 @@ class EditProfileView extends GetView<EditProfileController> {
                     SizedBox(height: size.height * .0086),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                      child: Text(controller.email.value,
+                      child: Text(controller.email.value.trim(),
                           style: Theme.of(context)
                               .textTheme
                               .caption
@@ -103,7 +105,7 @@ class EditProfileView extends GetView<EditProfileController> {
                             style: Theme.of(context).textTheme.subtitle2?.copyWith(
                                 fontSize: 16, fontFamily: 'GilroyMedium'),
                             decoration: InputDecoration(
-                              contentPadding: EdgeInsets.only(top: 18),
+                              contentPadding: const EdgeInsets.only(top: 18),
                                 hintText: "Enter your full name".tr,
                                 hintStyle: Theme.of(context).textTheme.caption,
                             ),
@@ -116,7 +118,7 @@ class EditProfileView extends GetView<EditProfileController> {
                           SizedBox(height: size.height * 0.007),
                           TextFormField(
                             controller: controller.emailE,
-                            validator: (value)=>Validation.EmailValid(email: controller.emailE.text),
+                            validator: (value)=>Validation.EmailValid(email: controller.emailE.text.trim()),
                             style: Theme.of(context).textTheme.subtitle2?.copyWith(
                                 fontSize: 16, fontFamily: 'GilroyMedium'),
                             decoration: InputDecoration(
@@ -152,7 +154,31 @@ class EditProfileView extends GetView<EditProfileController> {
                             onPressed: () {
                               if(profileFormKey.currentState!.validate())
                               {
-                                controller.updateProfile(context);
+                                if(controller.name.text.trim() != '') {
+                                  if(controller.emailE.text.trim() != '') {
+                                    controller.updateProfile(context);
+                                  }else{
+                                    MotionToast.error(
+                                      title: const Text(
+                                        'Please Enter Email',
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                      description: const Text('Not Space Only Space'),
+                                    ).show(context);
+                                  }
+                                }else{
+                                  MotionToast.error(
+                                    title: const Text(
+                                      'Please Enter Name',
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    description: const Text('Not Space Only Space'),
+                                  ).show(context);
+                                }
                               }
                             },
                             style: ElevatedButton.styleFrom(

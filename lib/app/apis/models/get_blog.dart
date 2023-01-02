@@ -11,16 +11,16 @@ class GetBlog {
     if (json['blog'] != null) {
       blog = <Blog>[];
       json['blog'].forEach((v) {
-        blog!.add(new Blog.fromJson(v));
+        blog!.add(Blog.fromJson(v));
       });
     }
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['message'] = this.message;
-    if (this.blog != null) {
-      data['blog'] = this.blog!.map((v) => v.toJson()).toList();
+    final Map<String, dynamic> data = Map<String, dynamic>();
+    data['message'] = message;
+    if (blog != null) {
+      data['blog'] = blog!.map((v) => v.toJson()).toList();
     }
     return data;
   }

@@ -37,12 +37,11 @@ class ProfileView extends GetView<ProfileController> {
               alignment: Alignment.topRight,
               children: [
                 IconButton(
-                  onPressed: () {
-                    Get.toNamed(Routes.NOTIFICATION);
-                  },
+                  splashRadius: 24,
+                  onPressed: () =>controller.clickOnNotification(),
                   icon: const Icon(Icons.notifications_none_rounded),
                 ),
-                Padding(
+                controller.notificationCountValue.value != 0?Padding(
                   padding: const EdgeInsets.all(10),
                   child: Container(
                     height: 14,
@@ -55,15 +54,18 @@ class ProfileView extends GetView<ProfileController> {
                     ),
                     child: Center(
                       child: Text(
-                        '2',
-                        style: Theme.of(context).textTheme.headline2?.copyWith(
+                        controller.notificationCountValue.value.toString(),
+                        style: Theme.of(context)
+                            .textTheme
+                            .headline2
+                            ?.copyWith(
                             overflow: TextOverflow.ellipsis,
                             fontSize: 10,
                             color: Colors.white),
                       ),
                     ),
                   ),
-                ),
+                ):SizedBox(),
               ],
             ),
           ],
@@ -71,6 +73,7 @@ class ProfileView extends GetView<ProfileController> {
         body: GestureDetector(
           onTap: () {
             FocusManager.instance.primaryFocus!.unfocus();
+            //DataSingleton.instance.languageId = controller.selectedLanguage.value;
           },
           child: ListView(
             children: [
@@ -81,8 +84,9 @@ class ProfileView extends GetView<ProfileController> {
                     tileColor: Theme.of(context).colorScheme.background,
                     iconColor: Theme.of(context).colorScheme.onBackground,
                     trailing: IconButton(
+                      splashRadius: 24,
                       onPressed: controller.dataUpdateProfile,
-                      icon: Icon(Icons.edit_outlined),
+                      icon: const Icon(Icons.edit_outlined),
                     ),
                     title: Text(
                       controller.full_name.value,
@@ -129,17 +133,6 @@ class ProfileView extends GetView<ProfileController> {
                             ?.copyWith(fontSize: 14)),
                   ),
                   ListTile(
-                    /*onTap: () {
-                      */ /*showModalBottomSheet(
-                        context: context,
-                        builder: (context) {
-                          return const SizedBox(
-                              height: 300,
-                              width: double.infinity,
-                              child: SendRequest());
-                        },
-                      );*/ /*
-                    },*/
                     tileColor: Theme.of(context).colorScheme.background,
                     title: Text('Mobile Number'.tr,
                         style: Theme.of(context)
@@ -164,29 +157,7 @@ class ProfileView extends GetView<ProfileController> {
                     ),
                   ),
                   ListTile(
-                    onTap: () {
-                      controller.savedInLocal();
-                      showModalBottomSheet(
-                        context: context,
-                        builder: (context) {
-                          return SizedBox(
-                            height: 300,
-                            width: double.infinity,
-                            child: Obx(
-                              () => SelectedLocation(
-                                selectedLocation:
-                                    controller.selectedLocation.value,
-                                changeLocation: (String value) {
-                                  controller.selectedLocation(value);
-                                  DataSingleton.instance.locationId = value;
-                                },
-                                onPressed: () {},
-                              ),
-                            ),
-                          );
-                        },
-                      );
-                    },
+                    onTap: () =>controller.clickOnLocationTile(),
                     tileColor: Theme.of(context).colorScheme.background,
                     iconColor: Theme.of(context).colorScheme.onBackground,
                     trailing: Image.asset(
@@ -194,13 +165,13 @@ class ProfileView extends GetView<ProfileController> {
                       height: size.height * .024,
                       width: size.height * .024,
                     ),
-                    title: Text('Create Blog'.tr,
+                    title: Text('Choice Location'.tr,
                         style: Theme.of(context)
                             .textTheme
                             .headline2
                             ?.copyWith(fontSize: 14)),
                     subtitle: Text(
-                        'Send a request to admin to create a blog'.tr,
+                        'Click to Choice the Location'.tr,
                         style: Theme.of(context).textTheme.caption?.copyWith(
                             fontFamily: 'GilroySemiBold', fontSize: 12),
                         overflow: TextOverflow.ellipsis),
@@ -215,40 +186,14 @@ class ProfileView extends GetView<ProfileController> {
                           borderRadius:
                               const BorderRadius.all(Radius.circular(10))),
                       child: Center(
-                        child: Image.asset(
-                          'assets/images/edit.png',
-                          height: size.height * .024,
-                          width: size.height * .024,
-                        ),
+                        child: Icon(Icons.location_city_outlined,color: Theme.of(context)
+                            .colorScheme
+                            .primary,)
                       ),
                     ),
                   ),
                   ListTile(
-                    onTap: () {
-                      controller.savedInLocal();
-                      showModalBottomSheet(
-                          context: context,
-                          builder: (context) {
-                            return SizedBox(
-                              height: 300,
-                              width: double.infinity,
-                              child: Obx(
-                                () => SelectedLanguagePage(
-                                  selectedLanguage:
-                                      controller.selectedLanguage.value,
-                                  changeLanguage: (String value) {
-                                    controller.selectedLanguage(value);
-                                    DataSingleton.instance.languageId = value;
-                                  },
-                                  onPressed: () {
-                                    print(
-                                        "object:: ${controller.selectedLanguage.value}");
-                                  },
-                                ),
-                              ),
-                            );
-                          });
-                    },
+                    onTap: ()=>controller.clickOnLanguageTile(),
                     tileColor: Theme.of(context).colorScheme.background,
                     iconColor: Theme.of(context).colorScheme.onBackground,
                     trailing: Image.asset(
@@ -256,13 +201,13 @@ class ProfileView extends GetView<ProfileController> {
                       height: size.height * .024,
                       width: size.height * .024,
                     ),
-                    title: Text('My Posts'.tr,
+                    title: Text('Change Language'.tr,
                         style: Theme.of(context)
                             .textTheme
                             .headline2
                             ?.copyWith(fontSize: 14)),
                     subtitle: Text(
-                        'Send a request to admin to create a blog'.tr,
+                        'Click to change the language'.tr,
                         style: Theme.of(context).textTheme.caption?.copyWith(
                             fontFamily: 'GilroySemiBold', fontSize: 12),
                         overflow: TextOverflow.ellipsis),
@@ -277,11 +222,9 @@ class ProfileView extends GetView<ProfileController> {
                           borderRadius:
                               const BorderRadius.all(Radius.circular(8))),
                       child: Center(
-                        child: Image.asset(
-                          'assets/images/picture.png',
-                          height: size.height * .024,
-                          width: size.height * .024,
-                        ),
+                          child: Icon(Icons.language,color: Theme.of(context)
+                              .colorScheme
+                              .primary,)
                       ),
                     ),
                   ),
@@ -296,10 +239,9 @@ class ProfileView extends GetView<ProfileController> {
                             ?.copyWith(fontSize: 14)),
                   ),
                   ListTile(
-                    onTap: () {},
                     tileColor: Theme.of(context).colorScheme.background,
                     iconColor: Theme.of(context).colorScheme.onBackground,
-                    trailing: Container(
+                    trailing: SizedBox(
                       width: size.width * .1,
                       height: size.height * .1,
                       child: Center(

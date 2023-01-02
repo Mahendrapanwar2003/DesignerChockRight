@@ -1,11 +1,15 @@
 import 'dart:convert';
 
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:the_designer_chowk/app/apis/constant/constant_uris.dart';
 import 'package:the_designer_chowk/app/routes/app_pages.dart';
 import 'package:the_designer_chowk/app/utils/language_singleton.dart';
 import 'package:http/http.dart' as http;
+
+import '../../../data/sheets/selected_language.dart';
+import '../../../data/sheets/selected_locating.dart';
 
 class ProfileController extends GetxController {
   final count = 0.obs;
@@ -19,12 +23,14 @@ class ProfileController extends GetxController {
   final email = ''.obs;
   String? token = '';
 
+  final notification = ''.obs;
+  final notificationCountValue = 0.obs;
+
   @override
   void onInit() {
     super.onInit();
     savedInLocal();
     callApi();
-    notificationApi();
   }
 
   @override
@@ -51,6 +57,10 @@ class ProfileController extends GetxController {
   callApi() async {
     SharedPreferences sp = await SharedPreferences.getInstance();
     token = sp.getString('token') as String;
+    if(token!='')
+      {
+        notificationCount(token: token);
+      }
     http.Response res = await http.get(
         Uri.parse(ConstantUris.endpointGetUserProfile),
         headers: {'Authorization': token!});
@@ -61,6 +71,14 @@ class ProfileController extends GetxController {
       email.value = data['email'] ?? "";
       mobile.value = data['mobile'];
       user_profile.value = data['user_profile'] ?? '';
+      notification.value = data['notification'] ?? '';
+      if(notification.value =='')
+        {
+          notificationOn.value =false;
+        }else
+          {
+            notificationOn.value = true;
+          }
     } else if (res.statusCode == 401) {
       print("401Unauthorized");
     } else if (res.statusCode == 400) {
@@ -68,19 +86,10 @@ class ProfileController extends GetxController {
     }
   }
 
-  notificationApi([bool? val= false]) async {
-    SharedPreferences sp = await SharedPreferences.getInstance();
-    token = sp.getString('token') as String;
-    http.Response res = await http.post(
-        Uri.parse(ConstantUris.endpointUserNotificationSetting),
-        body: {'notification': ''},
-        headers: {'Authorization': token!});
-    print(res.body);
+  Future<void> notificationCount({String? token}) async {
+    http.Response res = await http.get(Uri.parse(ConstantUris.endpointGetUserCountUnreadNotification),headers: {'Authorization' : token!});
     if (res.statusCode == 200) {
-      Map map = jsonDecode(res.body);
-      print(map['message']);
-    }else{
-      print('falsesgayffsfs0');
+      notificationCountValue.value = int.parse(jsonDecode(res.body)["UnreadCount"]);
     }
   }
 
@@ -88,4 +97,51 @@ class ProfileController extends GetxController {
     await Get.toNamed(Routes.EDIT_PROFILE);
     callApi();
   }
+
+  clickOnNotification() {
+    Get.toNamed(Routes.NOTIFICATION);
+  }
+  clickOnLanguageTile() {
+    savedInLocal();
+    showModalBottomSheet(
+        context: Get.context!,
+        builder: (context) {
+          return SizedBox(
+            height: 300,
+            width: double.infinity,
+            child: Obx(
+                  () {return SelectedLanguagePage(
+                  selectedLanguage:
+                  selectedLanguage.value,
+                  onPressed: () {}, changeLanguage: (String value) { selectedLanguage(value); },
+                );
+              },
+            ),
+          );
+        });
+  }
+
+  clickOnLocationTile() {
+    savedInLocal();
+    showModalBottomSheet(
+      context: Get.context!,
+      builder: (context) {
+        return SizedBox(
+          height: 300,
+          width: double.infinity,
+          child: Obx(
+                () => SelectedLocation(
+              selectedLocation:
+              selectedLocation.value,
+              changeLocation: (String value) {
+                selectedLocation(value);
+              },
+              onPressed: () {},
+            ),
+          ),
+        );
+      },
+    );
+  }
+
 }

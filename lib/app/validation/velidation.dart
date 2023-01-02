@@ -2,7 +2,7 @@ import 'package:get/get.dart';
 
 class Validation {
   // ignore: non_constant_identifier_names
-  static String? NameValid({String? Name = null}) {
+  static String? NameValid({String? Name}) {
     if (Name == null || Name.isEmpty) {
       return "Please Enter Name".tr;
     }
@@ -22,7 +22,7 @@ class Validation {
   }
 
   // ignore: non_constant_identifier_names
-  static String? PasswordValid({String? password = null}) {
+  static String? PasswordValid({String? password}) {
     if (password == null || password.isEmpty) {
       return "Please Enter Password";
     } else if (!RegExp(
@@ -32,7 +32,7 @@ class Validation {
     }
     return null;
   }
-  static String? Pin({String? pin = null}) {
+  static String? Pin({String? pin}) {
     if (pin == null || pin.isEmpty) {
       return "Please Enter pin".tr;
     }else if(pin.length !=4 )

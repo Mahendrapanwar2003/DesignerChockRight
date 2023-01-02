@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:motion_toast/motion_toast.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:the_designer_chowk/app/apis/constant/constant_uris.dart';
 
@@ -67,6 +68,7 @@ class EditProfileController extends GetxController {
 
   Future<void> updateProfile(BuildContext context) async {
     http.Response res;
+    Map<String, dynamic> map;
     if (img.value != null) {
       var request =
       http.MultipartRequest("POST", Uri.parse(ConstantUris.endpointUpdateUserProfile));
@@ -88,10 +90,29 @@ class EditProfileController extends GetxController {
       );
     }
     if (res.statusCode == 200) {
-      Map<String, dynamic> map = jsonDecode(res.body);
+      map = jsonDecode(res.body);
       Get.back();
+      MotionToast.success(
+        title: const Text(
+          'Success',
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        description: const Text('SuccessFully Update Profile'),
+      ).show(context);
     }else {
-      print('Error.................');
+      map = jsonDecode(res.body);
+      // ignore: use_build_context_synchronously
+      MotionToast.error(
+        title: const Text(
+          'Error',
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        description: Text(map['message']),
+      ).show(context);
     }
   }
 
@@ -136,14 +157,15 @@ class EditProfileController extends GetxController {
     Get.back();
     XFile? imagePicker = await ImagePicker().pickImage(source: imageSource);
     if (imagePicker != null) {
-      img.value = File(imagePicker.path);
-      imageCropper(context);
+      //img.value = File(imagePicker.path);
+      // ignore: use_build_context_synchronously
+      imageCropper(context:context,imageFile: File(imagePicker.path));
     }
   }
 
-  Future<void> imageCropper(BuildContext context) async {
+  Future<void> imageCropper({required BuildContext context,required File imageFile}) async {
     final croppedFile = await ImageCropper().cropImage(
-      sourcePath: img.value!.path,
+      sourcePath: imageFile.path,
       aspectRatioPresets: [
         CropAspectRatioPreset.square,
         CropAspectRatioPreset.ratio3x2,

@@ -14,10 +14,9 @@ void main() {
     GetMaterialApp(
       title: "Application",
       translations: TranslationLanguage(),
-      locale: Locale("en", "US"),
+      locale: const Locale("en", "US"),
       initialRoute: AppPages.INITIAL,
       getPages: AppPages.routes,
-
       theme: ThemeData(
         fontFamily: "Gilroy",
         colorScheme: ColorScheme.light(

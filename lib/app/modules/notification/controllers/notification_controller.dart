@@ -1,14 +1,16 @@
 import 'dart:convert';
 
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
+import 'package:motion_toast/motion_toast.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:the_designer_chowk/app/apis/constant/constant_uris.dart';
 
 class NotificationController extends GetxController {
   final count = 0.obs;
 
   String token = '';
+  List<dynamic> notificationData = [];
 
   @override
   void onInit() {
@@ -65,7 +67,7 @@ class NotificationController extends GetxController {
     SharedPreferences sp = await SharedPreferences.getInstance();
     token = sp.getString('token') ?? "";
     final queryParameters = {
-      'offset': 10,
+      'offset': "10",
     };
     final uri = Uri.http(
         'dgnchowk.dollopinfotech.com', "/getNotification", queryParameters);
@@ -74,10 +76,22 @@ class NotificationController extends GetxController {
       headers: {
         'Authorization': token,
       });
-    if(res.body==200)
+    if(res.statusCode==200)
       {
         Map map = jsonDecode(res.body);
-        Map NotificationData = map['NotificationData'];
+        notificationData = map['NotificationData'];
+        if(notificationData.isEmpty)
+          {
+            MotionToast.error(
+              title: const Text(
+                'Notification Data',
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              description: const Text('Not Found'),
+            ).show(Get.context!);
+          }
       }
   }
 }

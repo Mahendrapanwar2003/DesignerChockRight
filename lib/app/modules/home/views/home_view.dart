@@ -1,181 +1,196 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:the_designer_chowk/app/apis/constant/constant_uris.dart';
-import 'package:the_designer_chowk/app/data/sheets/selected_locating.dart';
 import 'package:the_designer_chowk/app/data/views/card_show_home_page.dart';
-import 'package:the_designer_chowk/app/routes/app_pages.dart';
-import 'package:the_designer_chowk/app/utils/language_singleton.dart';
 import '../controllers/home_controller.dart';
 
 class HomeView extends GetView<HomeController> {
-  HomeView({Key? key}) : super(key: key);
+  const HomeView({Key? key}) : super(key: key);
 
   ImageProvider showProfilePic() {
-    if (controller.user_profile.isNotEmpty) {
-      return NetworkImage(ConstantUris.baseUrl + controller.user_profile.value);
+    if (controller.userProfile.isNotEmpty) {
+      return NetworkImage(ConstantUris.baseUrl + controller.userProfile.value);
     }
     return const AssetImage("assets/images/image.png");
   }
-
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    return Obx(() => controller.count>0?Scaffold(
-          appBar: AppBar(
-            toolbarHeight: 62,
-            elevation: 0.4,
-            bottom: TabBar(
-              controller: controller.controller,
-              tabs: controller.myTabs,
-              labelColor: const Color(0xffFB0067),
-              unselectedLabelColor: Colors.grey,
-              indicatorSize: TabBarIndicatorSize.label,
-              //indicatorSize: TabBarIndicatorSize.label,
-              indicatorColor: Theme.of(context).colorScheme.secondary,
-              isScrollable: true,
-              indicator: _TabIndicator(
-                color: Theme.of(context).colorScheme.secondary,
-              ),
-            ),
-            actions: [
-              Padding(
-                padding: const EdgeInsets.only(right: 8.0),
-                child: Row(
-                  children: [
-                    Text(controller.count.value.toString() == 0 ? '' : ''),
-                    Stack(
-                      alignment: Alignment.topRight,
-                      children: [
-                        IconButton(
-                          onPressed: () {
-                            Get.toNamed(Routes.NOTIFICATION);
-                          },
-                          icon: const Icon(Icons.notifications_none_rounded),
+    return Obx(
+      () => controller.homeTab != 0
+          ? DefaultTabController(
+              length: controller.homeTab.length,
+              child: Scaffold(
+                appBar: AppBar(
+                  toolbarHeight: 62,
+                  elevation: 0.4,
+                  bottom: TabBar(
+                    isScrollable: true,
+                    labelColor: const Color(0xffFB0067),
+                    unselectedLabelColor: Colors.grey,
+                    indicatorSize: TabBarIndicatorSize.label,
+                    indicatorColor: Theme.of(context).colorScheme.secondary,
+                    indicator: _TabIndicator(
+                      color: Theme.of(context).colorScheme.secondary,
+                    ),
+                    tabs: List<Widget>.generate(controller.homeTab.length,
+                        (int index) {
+                      print(controller.homeTab[index]);
+                      return Tab(
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Center(
+                              child: Container(
+                                height: 10,
+                                width: 10,
+                                decoration: BoxDecoration(
+                                  image: DecorationImage(
+                                    image: NetworkImage(ConstantUris.baseUrl +
+                                        controller
+                                            .homeTab[index].categoryImage!),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            const SizedBox(
+                              width: 3,
+                            ),
+                            Text(controller.homeTab[index].categoryName!),
+                          ],
                         ),
-                        Padding(
-                          padding: const EdgeInsets.all(10),
-                          child: Container(
-                            height: 14,
-                            width: 14,
-                            decoration: BoxDecoration(
-                              color: Theme.of(context).colorScheme.primary,
-                              borderRadius: const BorderRadius.all(
-                                Radius.circular(10),
+                      );
+                    }),
+                  ),
+                  actions: [
+                    Padding(
+                      padding: const EdgeInsets.only(right: 8.0),
+                      child: Row(
+                        children: [
+                          Text(controller.homeTab.isNotEmpty
+                              ? ''
+                              : ''),
+                          Stack(
+                            alignment: Alignment.topRight,
+                            children: [
+                              IconButton(
+                                splashRadius: 24,
+                                onPressed: () =>
+                                    controller.clickOnNotification(),
+                                icon: const Icon(
+                                    Icons.notifications_none_rounded),
                               ),
-                            ),
-                            child: Center(
-                              child: Text(
-                                '2',
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .headline2
-                                    ?.copyWith(
-                                        overflow: TextOverflow.ellipsis,
-                                        fontSize: 10,
-                                        color: Colors.white),
-                              ),
-                            ),
+                              controller.notificationCountValue.value != 0
+                                  ? Padding(
+                                      padding: const EdgeInsets.all(10),
+                                      child: Container(
+                                        height: 14,
+                                        width: 14,
+                                        decoration: BoxDecoration(
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .primary,
+                                          borderRadius: const BorderRadius.all(
+                                            Radius.circular(10),
+                                          ),
+                                        ),
+                                        child: Center(
+                                          child: Text(
+                                            controller.notificationCountValue.value.toString(),
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .headline2
+                                                ?.copyWith(
+                                                    overflow:
+                                                        TextOverflow.ellipsis,
+                                                    fontSize: 10,
+                                                    color: Colors.white),
+                                          ),
+                                        ),
+                                      ),
+                                    )
+                                  : const SizedBox(),
+                            ],
                           ),
+                          IconButton(
+                            icon: const Icon(Icons.location_on_outlined),
+                            splashRadius: 24,
+                            onPressed: () => controller.clickOnLocationButton(),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                  title: SizedBox(
+                    height: 38,
+                    width: size.height * 3,
+                    child: TextField(
+                      style: Theme.of(context)
+                          .textTheme
+                          .subtitle2
+                          ?.copyWith(fontSize: 16, fontFamily: 'GilroyMedium'),
+                      decoration: InputDecoration(
+                        prefixIcon: const Icon(Icons.search),
+                        hintText: 'Search here...'.tr,
+                        hintStyle: Theme.of(context).textTheme.caption,
+                        contentPadding:
+                            const EdgeInsets.only(top: 12, right: 4),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius:
+                              const BorderRadius.all(Radius.circular(30)),
+                          borderSide: BorderSide(
+                              width: 1,
+                              color: Theme.of(context).colorScheme.primary),
                         ),
+                        enabledBorder: OutlineInputBorder(
+                            borderRadius:
+                                const BorderRadius.all(Radius.circular(30)),
+                            borderSide: BorderSide(
+                                color: Theme.of(context).colorScheme.outline)),
+                      ),
+                    ),
+                  ),
+                  leading: GestureDetector(
+                    onTap: () => controller.clickProfile(),
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 16.0),
+                      child: Container(
+                        height: 32,
+                        width: 32,
+                        decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            image: DecorationImage(
+                                image: showProfilePic(), fit: BoxFit.cover)),
+                      ),
+                    ),
+                  ),
+                ),
+                body: TabBarView(
+                  children: List<Widget>.generate(controller.homeTab.length,
+                      (int index) {
+                    print(controller.homeTab[0]);
+                    return const CardShowHomePage();
+                  }),
+                ),
+              ),
+            )
+          : Scaffold(
+              body: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Column(
+                      children: const [
+                        CircularProgressIndicator(color: Colors.deepOrange),
                       ],
                     ),
-                    IconButton(
-                      icon: const Icon(Icons.location_on_outlined),
-                      onPressed: () {
-                        controller.savedInLocal();
-                        showModalBottomSheet(
-                          context: context,
-                          builder: (context) {
-                            return SizedBox(
-                              height: 300,
-                              width: double.infinity,
-                              child: SelectedLocation(
-                                  selectedLocation:
-                                      controller.selectedLocation.value,
-                                  changeLocation: (String value) {
-                                    controller.selectedLocation(value);
-                                    DataSingleton.instance.locationId = value;
-                                  },
-                                  onPressed: () {},
-                                ),
-                              );
-                          },
-                        );
-                      },
-                    ),
+                    Text(controller.count == 0 ? '' : '')
                   ],
                 ),
               ),
-            ],
-            title: SizedBox(
-              height: 38,
-              width: size.height * 3,
-              child: TextField(
-                style: Theme.of(context)
-                    .textTheme
-                    .subtitle2
-                    ?.copyWith(fontSize: 16, fontFamily: 'GilroyMedium'),
-                decoration: InputDecoration(
-                  prefixIcon: const Icon(Icons.search),
-                  hintText: 'Search here...'.tr,
-                  hintStyle: Theme.of(context).textTheme.caption,
-                  contentPadding: const EdgeInsets.only(top: 12, right: 4),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: const BorderRadius.all(Radius.circular(30)),
-                    borderSide: BorderSide(
-                        width: 1, color: Theme.of(context).colorScheme.primary),
-                  ),
-                  enabledBorder: OutlineInputBorder(
-                      borderRadius: const BorderRadius.all(Radius.circular(30)),
-                      borderSide: BorderSide(
-                          color: Theme.of(context).colorScheme.outline)),
-                ),
-              ),
             ),
-            leading: InkWell(
-              onTap: () => controller.clickProfile(),
-              child: Padding(
-                padding: const EdgeInsets.only(left: 16.0),
-                child:Container(
-                    height: 32,
-                    width: 32,
-                    decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        image: DecorationImage(
-                            image: showProfilePic(), fit: BoxFit.cover)),
-                  ),
-                ),
-            ),
-          ),
-          body: TabBarView(
-            physics: BouncingScrollPhysics(),
-            controller: controller.controller,
-            children: [
-              CardShowHomePage(
-                list: controller.list,
-              ),
-              CardShowHomePage(
-                list: controller.list,
-              ),
-              CardShowHomePage(
-                list: controller.list,
-              ),
-              CardShowHomePage(
-                list: controller.list,
-              ),
-              CardShowHomePage(
-                list: controller.list,
-              ),
-              CardShowHomePage(
-                list: controller.list,
-              ),
-            ],
-          ),
-        ):Scaffold(body:Center(child: Column(mainAxisAlignment: MainAxisAlignment.center,crossAxisAlignment: CrossAxisAlignment.center,children: [Column(
-          children: [
-            CircularProgressIndicator(color: Colors.deepOrange),
-          ],
-        ),Text(controller.count==0?'':'')],)) ));
+    );
   }
 }
 

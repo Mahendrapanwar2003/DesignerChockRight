@@ -18,15 +18,13 @@ class NotificationView extends GetView<NotificationController> {
                 Theme.of(context).textTheme.headline2?.copyWith(fontSize: 19)),
       ),
       body: ListView.builder(
-        itemCount: 10,
+        itemCount: controller.notificationData.length,
         itemBuilder: ((context, index) => ListTile(
-          onTap: () {
-            Get.toNamed(Routes.EDIT_PROFILE);
-          },
+          onTap: () {},
           tileColor: Theme.of(context).colorScheme.background,
           iconColor: Theme.of(context).colorScheme.onBackground,
           trailing: Text(
-            '1m ago.'.tr,
+            controller.notificationData[index]['create_time'],
             style: Theme.of(context).textTheme.button?.copyWith(
               fontSize: 12,
               color: Theme.of(context)
@@ -38,7 +36,7 @@ class NotificationView extends GetView<NotificationController> {
             overflow: TextOverflow.ellipsis,
           ),
           title: Text(
-            'Your Blog is updated',
+            controller.notificationData[index]['notification_title'],
             style: Theme.of(context).textTheme.button?.copyWith(
               color: Theme.of(context).colorScheme.onBackground,
             ),
@@ -47,13 +45,14 @@ class NotificationView extends GetView<NotificationController> {
           subtitle: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text('Lorem Ipsum is simply dummy text of the printing',
+              Text(
+          controller.notificationData[index]['notification_message'],
                   style: Theme.of(context)
                       .textTheme
                       .caption
                       ?.copyWith(fontSize: 10),
                   overflow: TextOverflow.ellipsis),
-              Text('and typesetting industry..',
+              Text( controller.notificationData[index]['notification_image'],
                   style: Theme.of(context)
                       .textTheme
                       .caption

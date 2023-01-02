@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:the_designer_chowk/app/data/views/selected_card.dart';
 import 'package:the_designer_chowk/app/routes/app_pages.dart';
+import 'package:the_designer_chowk/app/utils/language_singleton.dart';
 
 class SelectedLanguagePage extends StatelessWidget {
   const SelectedLanguagePage(
@@ -55,11 +56,11 @@ class SelectedLanguagePage extends StatelessWidget {
                   if (selectedLanguage == "en") {
                     var local = Locale("en", "US");
                     Get.updateLocale(local);
-                    changeLanguage('en');
+                    DataSingleton.instance.languageId = 'en';
                   } else {
                     var local = Locale("hi", "IN");
                     Get.updateLocale(local);
-                    changeLanguage('hi');
+                    DataSingleton.instance.languageId = 'hi';
                   }
                   Get.back();
                 },

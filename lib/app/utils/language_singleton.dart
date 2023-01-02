@@ -14,7 +14,6 @@ class DataSingleton {
   Future<SharedPreferences> sp = SharedPreferences.getInstance();
 
   void onInit(){
-    ///TODO: Shared prefernce ualue access
     locationId = "INDORE";
     languageId = "en";
     sp = SharedPreferences.getInstance();

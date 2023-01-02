@@ -5,26 +5,24 @@ class TranslationLanguage extends Translations {
   Map<String, Map<String, String>> get keys => {
         'en_US': {
           ///TODO VALIDATIONS
-          'Please Enter Confirm Password':'Please Enter Confirm Password',
-          'Please Enter pin':'Please Enter pin',
-          'Password not Match':'Password not Match',
-          'Number not valid':'Number not valid',
-          'Please Enter Number':'Please Enter Number',
-          'Please Enter Name':'Please Enter Name',
-          'Please Enter Valid 4 Digit Pin':'Please Enter Valid 4 Digit Pin',
-          'Not Match Enter Again':'Not Match Enter Again',
-          'Wellcome to Disigner Chock':'Wellcome to Disigner Chock',
-          'Wrong Information':'Wrong Information',
-          'Please Check Abowe Information':'Please Check Abowe Information',
-          ''
+          'Please Enter Confirm Password': 'Please Enter Confirm Password',
+          'Please Enter pin': 'Please Enter pin',
+          'Password not Match': 'Password not Match',
+          'Number not valid': 'Number not valid',
+          'Please Enter Number': 'Please Enter Number',
+          'Please Enter Name': 'Please Enter Name',
+          'Please Enter Valid 4 Digit Pin': 'Please Enter Valid 4 Digit Pin',
+          'Not Match Enter Again': 'Not Match Enter Again',
+          'Wellcome to Disigner Chock': 'Wellcome to Disigner Chock',
+          'Wrong Information': 'Wrong Information',
+          'Please Check Abowe Information': 'Please Check Abowe Information',
 
-
-          //TODO SIGN IN page
+              //TODO SIGN IN page
           'Sign In': 'Sign In',
           'Enter phone number': 'Enter phone number',
           'Enter your number': 'Enter your number',
           '4 digit OTP will be sent via SMS to\nverify your mobile number':
-              '4 digit OTP will be sent via SMS to\nverify your mobile number',
+          '4 digit OTP will be sent via SMS to\nverify your mobile number',
           'Send OTP': 'Send OTP',
 
           //TODO Get OTP page
@@ -88,20 +86,23 @@ class TranslationLanguage extends Translations {
           'LOGOUT': 'LOGOUT',
           'CANCEL': 'CANCEL',
           'Sign out your account': 'Sign out your account',
+          'Click to change the language': 'Click to change the language',
+          'Change Language': 'Change Language',
+          'Choice Location': 'Choice Location',
+          'Click to Choice the Location': 'Click to Choice the Location',
 
+          'SAVE LOCATION': 'SAVE LOCATION',
+          'Choose Location': 'Choose Location',
+          'INDORE': 'INDORE',
+          'BHOPAL': 'BHOPAL',
+          'NEW DELHI': 'NEW DELHI',
+          'BANGALORE': 'BANGALORE',
+          'MUMBAI': 'MUMBAI',
+          'NAGPUR': 'NAGPUR',
 
-          'SAVE LOCATION':'SAVE LOCATION',
-          'Choose Location':'Choose Location',
-          'INDORE':'INDORE',
-          'BHOPAL':'BHOPAL',
-          'NEW DELHI':'NEW DELHI',
-          'BANGALORE':'BANGALORE',
-          'MUMBAI':'MUMBAI',
-          'NAGPUR':'NAGPUR',
-
-          'Mobile Number':'Mobile Number',
-          'Send Request':'Send Request',
-          'Massage':'Massage',
+          'Mobile Number': 'Mobile Number',
+          'Send Request': 'Send Request',
+          'Massage': 'Massage',
 
           ///TODO SIGN UP page
           'Sign Up': 'Sign Up',
@@ -115,43 +116,43 @@ class TranslationLanguage extends Translations {
           'indore': 'INDORE',
         },
         'hi_IN': {
-
           ///TODO VALIDATIONS
-          'Please Enter Confirm Password':'कृपया पासवर्ड की पुष्टि करें दर्ज करें',
-          'Please Enter pin':'कृपया पिन दर्ज करें',
-          'Password not Match':'पासवर्ड मैच नहीं',
-          'Please Enter Number':'कृपया नंबर दर्ज करें',
-          'Number not valid':'नंबर मान्य नहीं है',
-          'Please Enter Name':'कृपया नाम दर्ज करें',
-          'Please Enter Valid 4 Digit Pin':'कृपया मान्य 4 अंकों का पिन दर्ज करें',
-          'Not Match Enter Again':'मैच नहीं फिर से दर्ज करें',
-          'Wellcome to Disigner Chock':'डिसिग्नर चोक में आपका स्वागत है',
-          'Successfully Login':'सफलतापूर्वक लॉगिन',
-          'Wrong Information':'गलत जानकारी',
-          'Please Check Abowe Information':'कृपया ऊपर दी गई जानकारी की जाँच करें',
+          'Please Enter Confirm Password':
+              'कृपया पासवर्ड की पुष्टि करें दर्ज करें',
+          'Please Enter pin': 'कृपया पिन दर्ज करें',
+          'Password not Match': 'पासवर्ड मैच नहीं',
+          'Please Enter Number': 'कृपया नंबर दर्ज करें',
+          'Number not valid': 'नंबर मान्य नहीं है',
+          'Please Enter Name': 'कृपया नाम दर्ज करें',
+          'Please Enter Valid 4 Digit Pin':
+          'कृपया मान्य 4 अंकों का पिन दर्ज करें',
+          'Not Match Enter Again': 'मैच नहीं फिर से दर्ज करें',
+          'Wellcome to Disigner Chock': 'डिसिग्नर चोक में आपका स्वागत है',
+          'Successfully Login': 'सफलतापूर्वक लॉगिन',
+          'Wrong Information': 'गलत जानकारी',
+          'Please Check Abowe Information':
+              'कृपया ऊपर दी गई जानकारी की जाँच करें',
 
-
-
-          //TODO SIGN IN page
+//TODO SIGN IN page
           'Sign In': 'साइन इन करें',
           'Enter phone number': 'फोन नंबर दर्ज',
           'Enter your number': 'अपना नंबर दर्ज करें',
           '4 digit OTP will be sent via SMS to\nverify your mobile number':
-              'आपके मोबाइल नंबर को सत्यापित करने के लिए\nएसएमएस के माध्यम से 4 अंकों का ओटीपी भेजा जाएगा',
+          'आपके मोबाइल नंबर को सत्यापित करने के लिए\nएसएमएस के माध्यम से 4 अंकों का ओटीपी भेजा जाएगा',
           'Send OTP': 'ओटीपी भेजें',
 
-          //TODO Get OTP page
+//TODO Get OTP page
           'Get OTP': 'ओटीपी प्राप्त करें',
           'Enter the OTP you received to': 'आपको प्राप्त ओटीपी दर्ज करें',
           "If you didn't receive a code! ":
-              'यदि आपको कोई कोड प्राप्त नहीं हुआ है!',
+          'यदि आपको कोई कोड प्राप्त नहीं हुआ है!',
           'Resend': 'पुन: भेजें',
           'Please Enter Pin': 'कृपया पिन दर्ज करें',
           'Please Enter Valid 4 Digit Pin':
               'कृपया मान्य 4 अंकों का पिन दर्ज करें',
           'Verify': 'सत्यापित करना',
 
-          //TODO CHANGE LANGUAGE page
+//TODO CHANGE LANGUAGE page
           'SAVE LANGUAGE': 'भाषा सहेजें',
           'HINDI': 'हिन्दी',
           'ENGLISH': 'अंग्रेज़ी',
@@ -203,19 +204,23 @@ class TranslationLanguage extends Translations {
           'LOGOUT': 'लॉग आउट',
           'CANCEL': 'रद्द करना',
           'Sign out your account': 'अपना खाता साइन आउट करें',
+          'Click to change the language': 'भाषा बदलने के लिए क्लिक करें',
+          'Change Language': 'भाषा बदलें',
+          'Choice Location': 'स्थान चुने',
+          'Click to Choice the Location': 'स्थान चुनने के लिए क्लिक करें',
 
-          'SAVE LOCATION':'स्थान सहेजें',
-          'Choose Location':'स्थान का चयन',
-          'INDORE':'इंदौर',
-          'BHOPAL':'भोपाल',
-          'NEW DELHI':'नई दिल्ली',
-          'BANGALORE':'बैंगलोर',
-          'MUMBAI':'मुंबई',
-          'NAGPUR':'नागपुर',
+          'SAVE LOCATION': 'स्थान सहेजें',
+          'Choose Location': 'स्थान का चयन',
+          'INDORE': 'इंदौर',
+          'BHOPAL': 'भोपाल',
+          'NEW DELHI': 'नई दिल्ली',
+          'BANGALORE': 'बैंगलोर',
+          'MUMBAI': 'मुंबई',
+          'NAGPUR': 'नागपुर',
 
-          'Mobile Number':'मोबाइल नंबर',
-          'Send Request':'अनुरोध भेजाt',
-          'Massage':'मालिश',
+          'Mobile Number': 'मोबाइल नंबर',
+          'Send Request': 'अनुरोध भेजाt',
+          'Massage': 'मालिश',
 
           ///TODO SIGN UP page
           'Sign Up': 'साइन अप करें',

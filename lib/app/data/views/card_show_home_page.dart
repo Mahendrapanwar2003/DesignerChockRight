@@ -3,23 +3,21 @@ import 'package:get/get.dart';
 import 'package:like_button/like_button.dart';
 import 'package:the_designer_chowk/app/apis/constant/constant_uris.dart';
 import 'package:the_designer_chowk/app/apis/models/get_blog_detail_model.dart';
+import 'package:the_designer_chowk/app/modules/home/controllers/home_controller.dart';
 import 'package:the_designer_chowk/app/routes/app_pages.dart';
 import 'package:http/http.dart' as http;
 
-class CardShowHomePage extends StatelessWidget {
-  List<Blog> list = [];
-  String? token;
-  CardShowHomePage({Key? key, required this.list}) : super(key: key);
+class CardShowHomePage extends GetView<HomeController> {
+  const CardShowHomePage({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 2.0),
       child: ListView.builder(
         physics: const BouncingScrollPhysics(),
-        itemCount: list.length,
+        itemCount: controller.list.length,
         itemBuilder: (context, index) {
-          Blog obj = list.reversed.toList()[index];
+          Blog obj = controller.list.reversed.toList()[index];
           return Padding(
             padding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 4),
             child: Material(

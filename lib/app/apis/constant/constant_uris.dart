@@ -11,4 +11,5 @@ static String get endpointBlogComments => '${baseUrl}blog_comments';
 static String get endpointBlogLikes => '${baseUrl}blog_likes';
 static String get endpointGetNotification => '${baseUrl}getNotification';
 static String get endpointUserNotificationSetting => '${baseUrl}userNotificationSetting';
+static String get endpointGetUserCountUnreadNotification => '${baseUrl}getUserCountUnreadNotification';
 }
